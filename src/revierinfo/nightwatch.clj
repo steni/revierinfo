@@ -19,5 +19,5 @@
 (defn create [date & [members-on-duty]]
   (if (legal-date? date)
     (Nightwatch. date members-on-duty)
-    (throw (Exception. "Date must be betwen April 15 and October 15, inclusive")))
+    (throw (Exception. "Date must be between April 15 and October 15, inclusive")))
   )
