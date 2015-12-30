@@ -16,9 +16,9 @@
 
 (comment (facts "about 'nightwatch'"
                 (fact "a nightwatch record can be created for any date between April 15 and October 15 (inclusive) of any year"
-                      (nw/create (t/date-time 2010 04 15) []) => {:date (t/date-time 2010 04 15)}
-                      (nw/create (t/date-time 2010 10 15) []) => {:date (t/date-time 2010 10 15)})
+                      (nw/create (t/date-time 2010 04 15)) => {:date (t/date-time 2010 04 15)}
+                      (nw/create (t/date-time 2010 10 15)) => {:date (t/date-time 2010 10 15)})
                 (fact "a nigtwatch record cannot be created for dates before April 15 or after October 15"
-                      (nw/create (t/date-time 2010 04 14) []) => (throws Exception "Date must be betwen April 15 and October 15, inclusive")
+                      (nw/create (t/date-time 2010 04 14)) => (throws Exception "Date must be betwen April 15 and October 15, inclusive")
                       )
                 ))
