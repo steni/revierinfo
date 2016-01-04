@@ -1,3 +1,4 @@
+
 (ns revierinfo.t-member
   (:use midje.sweet)
   (:require [revierinfo.member :as member]))

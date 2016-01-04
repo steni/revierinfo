@@ -1,7 +1,10 @@
 (ns revierinfo.t-nightwatch
   (:use midje.sweet)
-  (:require [revierinfo.nightwatch :as nw]
-            [clj-time.core :as t])
+  (:require
+   [revierinfo.member :as member]
+   [revierinfo.nightwatch :as nw]
+   [clj-time.core :as t])
+
   (:import [revierinfo.nightwatch Nightwatch]))
 
 (facts "about legal dates"
@@ -15,8 +18,8 @@
 
 (facts "about 'nightwatch' creation"
        (fact "a nightwatch record can be created for any date between April 15 and October 15 (inclusive) of any year"
-             (nw/create (t/date-time 2010 04 15)) => (contains {:date (t/date-time 2010 04 15) :members-on-duty nil})
-             (nw/create (t/date-time 2010 10 15)) => (contains {:date (t/date-time 2010 10 15) :members-on-duty nil})
+             (nw/create (t/date-time 2010 04 15)) => (contains {:date (t/date-time 2010 04 15) :members-on-duty [nil]})
+             (nw/create (t/date-time 2010 10 15)) => (contains {:date (t/date-time 2010 10 15) :members-on-duty [nil]})
        (fact "a nigtwatch record cannot be created for dates before April 15 or after October 15"
              (nw/create (t/date-time 2010 04 14)) => (throws Exception "Date must be between April 15 and October 15, inclusive")
              (nw/create (t/date-time 2020 10 16)) => (throws Exception "Date must be between April 15 and October 15, inclusive")
@@ -24,5 +27,15 @@
              )))
 
 (facts "about assigning members for nightwatch duty"
-       (fact "a member can be assigned for nightwatch duty"
-             (nw/create (t/date-time 2010 04 15) CREATE MEMBER HERE ) => (contains {:date (t/date-time 2010 04 15) :members-on-duty nil})))
+       (let [member (member/create "2013001" "Sten Morten" "Misund-Asphaug" ["93261911"])
+             member2 (member/create "2013002" "Tonje" "Misund-Asphaug" ["92642141"])
+             time (t/date-time 2010 04 15)
+             nightwatch (nw/create time member)]
+         (fact "a member can be assigned for nightwatch duty"
+               nightwatch
+               => {:date time :members-on-duty [member]})
+         (fact "can add another member to the nightwatch"
+               (nw/add-attendee nightwatch  member2) => {:date time :members-on-duty [member member2]}
+               )
+
+         ))
