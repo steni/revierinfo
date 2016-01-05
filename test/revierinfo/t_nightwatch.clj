@@ -8,7 +8,7 @@
   (:import [revierinfo.nightwatch Nightwatch]))
 
 (facts "about legal dates"
-       (fact "dates between April 15th and October 15th of any year are allowd"
+       (fact "dates between April 15th and October 15th of any year are allowed"
              (nw/legal-date? (t/date-time 2010 04 16)) => true
              (nw/legal-date? (t/date-time 2019 04 15)) => true
              (nw/legal-date? (t/date-time 2010 04 14)) => false
@@ -27,15 +27,18 @@
              )))
 
 (facts "about assigning members for nightwatch duty"
-       (let [member (member/create "2013001" "Sten Morten" "Misund-Asphaug" ["93261911"])
-             member2 (member/create "2013002" "Tonje" "Misund-Asphaug" ["92642141"])
+       (let [member (member/create "2013001" "Sten Morten" "Stensen" ["93261911"])
+             member2 (member/create "2013002" "Tonje" "Tonjesen" ["92642141"])
+             member3 (member/create "2013003" "Jasper" "Jaspersen" ["12345678"])
              time (t/date-time 2010 04 15)
-             nightwatch (nw/create time member)]
+             nightwatch (nw/create time member)
+             nightwatch-with-two-members (nw/add-attendee nightwatch member2)
+             ]
          (fact "a member can be assigned for nightwatch duty"
-               nightwatch
-               => {:date time :members-on-duty [member]})
-         (fact "can add another member to the nightwatch"
-               (nw/add-attendee nightwatch  member2) => {:date time :members-on-duty [member member2]}
+               nightwatch => {:date time :members-on-duty [member]})
+         (fact "can add another member to the nightwatch "
+               nightwatch-with-two-members => {:date time :members-on-duty [member member2]}
                )
-
-         ))
+         (fact "cannot add a thirds member to the nighwatch"
+               (nw/add-attendee nightwatch-with-two-members member3) => (throws Exception "Only two members can attend a nightwatch")
+               )))

@@ -5,6 +5,7 @@
 (defonce october 10)
 (defonce spring-start-day 15)
 (defonce autumn-last-day 15)
+(defonce max-members-for-nightwatch 2)
 
 (defprotocol Attendable
   (add-attendee [this attendee]))
@@ -12,8 +13,11 @@
 (defrecord Nightwatch [date members-on-duty]
   Attendable
   (add-attendee [this attendee]
-    (update-in this
-               [:members-on-duty] conj attendee)))
+    (if (< (count (:members-on-duty this)) max-members-for-nightwatch)
+      (update-in this
+                 [:members-on-duty] conj attendee)
+      (throw (Exception. "Only two members can attend a nightwatch"))
+      )))
 
 (defn legal-date? [date]
   (let [y (t/year date)
