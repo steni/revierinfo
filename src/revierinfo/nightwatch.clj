@@ -6,6 +6,8 @@
 (defonce spring-start-day 15)
 (defonce autumn-last-day 15)
 (defonce max-members-for-nightwatch 2)
+(defonce date-exception "Date must be between April 15 and October 15, inclusive")
+(defonce too-many-members-exception "Only two members can attend a nightwatch")
 
 (defprotocol Attendable
   (add-attendee [this attendee]))
@@ -14,10 +16,8 @@
   Attendable
   (add-attendee [this attendee]
     (if (< (count (:members-on-duty this)) max-members-for-nightwatch)
-      (update-in this
-                 [:members-on-duty] conj attendee)
-      (throw (Exception. "Only two members can attend a nightwatch"))
-      )))
+      (update-in this [:members-on-duty] conj attendee)
+      (throw (Exception. too-many-members-exception)))))
 
 (defn legal-date? [date]
   (let [y (t/year date)
@@ -28,4 +28,4 @@
 (defn create [date & [members-on-duty]]
   (if (legal-date? date)
     (Nightwatch. date (conj [] members-on-duty))
-    (throw (Exception. "Date must be between April 15 and October 15, inclusive"))))
+    (throw (Exception. date-exception))))

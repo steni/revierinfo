@@ -39,6 +39,6 @@
          (fact "can add another member to the nightwatch "
                nightwatch-with-two-members => {:date time :members-on-duty [member member2]}
                )
-         (fact "cannot add a thirds member to the nighwatch"
+         (fact "cannot add a third member to the nighwatch"
                (nw/add-attendee nightwatch-with-two-members member3) => (throws Exception "Only two members can attend a nightwatch")
                )))
