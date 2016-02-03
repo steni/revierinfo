@@ -1,5 +1,6 @@
-(ns revierinfo.nightwatch
-  (:require [clj-time.core :as t]))
+(ns revierinfo.models.nightwatch
+  (:require [clj-time.core :as t]
+            [revierinfo.services.db :as db]))
 
 (defonce april 04)
 (defonce october 10)

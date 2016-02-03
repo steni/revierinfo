@@ -1,11 +1,11 @@
 (ns revierinfo.t-nightwatch
   (:use midje.sweet)
   (:require
-   [revierinfo.member :as member]
-   [revierinfo.nightwatch :as nw]
+   [revierinfo.models.member :as member]
+   [revierinfo.models.nightwatch :as nw]
    [clj-time.core :as t])
 
-  (:import [revierinfo.nightwatch Nightwatch]))
+  (:import [revierinfo.models.nightwatch Nightwatch]))
 
 (facts "about legal dates"
        (fact "dates between April 15th and October 15th of any year are allowed"
