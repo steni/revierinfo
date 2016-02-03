@@ -8,7 +8,9 @@
 (defroutes app-routes
   (GET "/" [] "Hello World")
   (GET "/member/:id" [id]
-       (generate-string (members/get id)))
+        (members/get id))
+  (GET "/member/" []
+       (generate-string (members/get-all)))
   (route/not-found "Not Found"))
 
 (def app

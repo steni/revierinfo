@@ -11,11 +11,14 @@
 (defn insert [collection data]
   (mc/insert-and-return db collection (merge {:_id (ObjectId.)} data)))
 
+(defn get-all [collection]
+  (mc/find-maps db collection))
+
 (defn find [collection find-function]
-  (mc/find db collection find-function))
+  (mc/find-maps db collection find-function))
 
 (defn find-one [collection find-function]
-  (mc/find-one db collection find-function))
+  (mc/find-one-as-map db collection find-function))
 
 (defn count [collection data]
   (mc/count db collection data))

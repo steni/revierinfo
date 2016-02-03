@@ -3,3 +3,6 @@
 
 (defn get [id]
   (member/get-by-id id))
+
+(defn get-all []
+  (member/get-all))
